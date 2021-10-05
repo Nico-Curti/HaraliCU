@@ -3,7 +3,10 @@
 
 #include <string>
 #include <iostream>
+
+#ifndef _WIN32
 #include <getopt.h> // For options check
+#endif
 
 #include "Utils.h"
 

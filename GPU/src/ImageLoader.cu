@@ -22,7 +22,7 @@ Mat ImageLoader::readImage(string fileName){
     if((inputImage.depth() != CV_8UC1) && (inputImage.depth() != CV_16UC1))
     {
         // Reducing the number of color channels from 3 to 1
-        cvtColor(inputImage, inputImage, CV_RGB2GRAY);
+        cvtColor(inputImage, inputImage, COLOR_RGB2GRAY);
         inputImage.convertTo(inputImage, CV_8UC1);
     }
 

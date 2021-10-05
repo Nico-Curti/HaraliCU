@@ -132,10 +132,9 @@ string Features::printFeatureNameAndValue(const double value, FeatureNames fname
     return (getFeatureName(fname) + "\t" + to_string(value));
 }
 
-void Features::printSingleFeature(const vector<double>& features,
-                                         FeatureNames featureName){
+void Features::printSingleFeature(const vector<double>& features){
 
-    for (int i = 0; i < features.size(); ++i) {
+    for (size_t i = 0; i < features.size(); ++i) {
         // Printing the label
         printFeatureName((FeatureNames) i);
         // Printing the value

@@ -25,8 +25,8 @@ public:
      */
     Image(vector<unsigned int> pixels, unsigned int rows, unsigned int columns,
           unsigned int minGrayLevel, unsigned int maxGrayLevel): 
-          pixels(pixels), rows(rows), columns(columns), minGrayLevel(minGrayLevel),
-          maxGrayLevel(maxGrayLevel){};
+          pixels(pixels), rows(rows), columns(columns),
+          maxGrayLevel(maxGrayLevel), minGrayLevel(minGrayLevel) {};
     /**
      * Getter
      * @return the pixels of the image

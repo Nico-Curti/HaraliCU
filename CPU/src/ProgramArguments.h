@@ -3,7 +3,10 @@
 
 #include <string>
 #include <iostream>
+
+#ifndef _WIN32
 #include <getopt.h> // For options check
+#endif
 
 #include "Utils.h"
 
@@ -93,9 +96,10 @@ public:
                      short int border = 1,
                      bool verbose = false,
                      string outFolder = "output")
-            : windowSize(windowSize), borderType(border), quantize(quantize), symmetric(symmetric), distance(distance),
+            : windowSize(windowSize), quantize(quantize), quantizationMax(0),
+              borderType(border), symmetric(symmetric), distance(distance),
               directionType(dirType), directionsNumber(dirNumber),
-              createImages(createImages), outputFolder(outFolder),
+              createImages(createImages), imagePath(""), outputFolder(outFolder),
               verbose(verbose){};
     /**
      * Shows the user how to use the program and its options

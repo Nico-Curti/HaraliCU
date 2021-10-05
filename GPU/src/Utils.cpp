@@ -3,7 +3,11 @@
 
 /* Support method for saving the results in the right output folder */
 void Utils::createFolder(string folderPath){
+#ifdef _WIN32
+    if (mkdir(folderPath.c_str()) == -1) {
+#else
     if (mkdir(folderPath.c_str(), 0777) == -1) {
+#endif
         if (errno == EEXIST) {
             // Alredy exists
         } else {

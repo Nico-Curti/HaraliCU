@@ -8,6 +8,11 @@
 #include <algorithm>
 #include <sys/stat.h> // file system interaction
 
+#ifdef _WIN32
+#include <direct.h>
+
+#define mkdir _mkdir
+#endif
 
 using namespace std;
 

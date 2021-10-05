@@ -57,7 +57,7 @@ void ImageFeatureComputer::printExtimatedSizes(const ImageData& img){
  */
 void checkOptionCompatibility(ProgramArguments& progArg, const Image img){
     int imageSmallestSide = img.getRows();
-    if(img.getColumns() < imageSmallestSide)
+    if(static_cast<int>(img.getColumns()) < imageSmallestSide)
         imageSmallestSide = img.getColumns();
     if(progArg.windowSize > imageSmallestSide){
         cout << "WARNING! The window side specified with the option -w"
@@ -306,9 +306,9 @@ vector<vector<vector<double>>> ImageFeatureComputer::getAllDirectionsAllFeatureV
 	vector<vector<double>> featuresInDirection(supportedFeatures.size());
 
 	// for each computed window
-	for (int i = 0; i < imageFeatures.size() ; ++i) {
+	for (size_t i = 0; i < imageFeatures.size() ; ++i) {
 		// for each supported feature
-		for (int k = 0; k < supportedFeatures.size(); ++k) {
+		for (size_t k = 0; k < supportedFeatures.size(); ++k) {
 			FeatureNames currentFeature = supportedFeatures[k];
 			// Push the value found in the output list for that direction
 			featuresInDirection[currentFeature].push_back(imageFeatures.at(i).at(0).at(currentFeature));
@@ -354,7 +354,7 @@ void ImageFeatureComputer::saveDirectedFeaturesToFiles(const int rowNumber, cons
 	vector<string> fileDestinations = Features::getAllFeaturesFileNames();
 
 	// for each feature
-	for(int i = 0; i < imageDirectedFeatures.size(); i++) {
+	for(size_t i = 0; i < imageDirectedFeatures.size(); i++) {
 		string newFileName(outputFolderPath); // create the right file path
 		pair<FeatureNames , FeatureValues> featurePair = make_pair((FeatureNames) i, imageDirectedFeatures[i]);
 		saveFeatureToFile(rowNumber, colNumber, featurePair, newFileName.append(fileDestinations[i]));
@@ -438,7 +438,7 @@ void ImageFeatureComputer::saveAllFeatureDirectedImages(const int rowNumber,
 	vector<string> fileDestinations = Features::getAllFeaturesFileNames();
 
 	// For each feature
-	for(int i = 0; i < imageDirectedFeatures.size(); i++) {
+	for(size_t i = 0; i < imageDirectedFeatures.size(); i++) {
 		string newFileName(outputFolderPath);
 		saveFeatureImage(rowNumber, colNumber, imageDirectedFeatures[i], newFileName.append(fileDestinations[i]));
 	}
@@ -459,7 +459,7 @@ void ImageFeatureComputer::saveFeatureImage(const int rowNumber,
 	int imageSize = rowNumber * colNumber;
 
 	// Check if dimensions are compatible
-	if(featureValues.size() != imageSize){
+	if(static_cast<int>(featureValues.size()) != imageSize){
 		cerr << "Fatal Error! Couldn't create the image; size unexpected " << featureValues.size();
 		exit(-2);
 	}

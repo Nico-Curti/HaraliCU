@@ -35,7 +35,7 @@ public:
      * @param maxGrayLevel 
      */
     CUDA_HOSTDEV explicit ImageData(unsigned int rows, unsigned int columns, int borders,
-            unsigned int mixGrayLevel, unsigned int maxGrayLevel)
+            unsigned int minGrayLevel, unsigned int maxGrayLevel)
             : rows(rows), columns(columns), appliedBorders(borders),
             minGrayLevel(minGrayLevel), maxGrayLevel(maxGrayLevel){};
     /**

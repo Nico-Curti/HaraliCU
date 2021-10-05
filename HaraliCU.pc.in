@@ -1,0 +1,11 @@
+prefix=@CMAKE_SOURCE_DIR@
+exec_prefix=${prefix}
+includedir=${prefix}/include
+libdir=${exec_prefix}/lib
+
+Name: @CMAKE_PROJECT_NAME@
+Description: Extracting Haralick Features using CUDA for GPU-acceleration
+
+Version: @CMAKE_PROJECT_VERSION@
+Cflags: -I${includedir}/
+Libs: -L${libdir} -l@CMAKE_STATIC_LIBRARY_PREFIX@@HaraliCUlib_gpu@ -l@CMAKE_STATIC_LIBRARY_PREFIX@@HaraliCUlib_cpu@

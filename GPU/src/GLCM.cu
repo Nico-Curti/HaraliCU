@@ -123,7 +123,7 @@ __device__ inline int GLCM::getNeighborIndex(const int i, const int j,
  * available memory
  */
 __device__ inline void GLCM::insertElement(GrayPair* grayPairs, const GrayPair actualPair, 
-    uint& lastInsertionPosition, bool symmetry){
+    uint32_t& lastInsertionPosition, bool symmetry){
     int position = 0;
     // Finding if the element was already inserted, and where
     while((!grayPairs[position].compareTo(actualPair, symmetry)) && (position < numberOfPairs))
@@ -195,7 +195,7 @@ __device__ void GLCM::initializeGlcmElements() {
  * It uses the convention that AggregateGrayPair (k=0, frequency=0) means
  * available memory
  */
-__device__ inline void GLCM::insertElement(AggregatedGrayPair* elements, const AggregatedGrayPair actualPair, uint& lastInsertionPosition){
+__device__ inline void GLCM::insertElement(AggregatedGrayPair* elements, const AggregatedGrayPair actualPair, uint32_t& lastInsertionPosition){
     int position = 0;
     // Finding if the element was already inserted, and where
     while((!elements[position].compareTo(actualPair)) && (position < numberOfPairs))
@@ -237,7 +237,7 @@ __device__ void GLCM::codifyAggregatedPairs() {
     lastInsertPosition = 0;
     for(int i = 0 ; i < effectiveNumberOfGrayPairs; i++){
         int diff = grayPairs[i].getGrayLevelI() - grayPairs[i].getGrayLevelJ();
-        grayLevelType k= static_cast<uint>(abs(diff));
+        grayLevelType k= static_cast<uint32_t>(abs(diff));
         AggregatedGrayPair element(k, grayPairs[i].getFrequency());
 
         insertElement(subtractedPairs, element, lastInsertPosition);

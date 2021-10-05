@@ -17,6 +17,10 @@
 #include "ImageData.h"
 #include "WorkArea.h"
 
+#ifdef _MSC_VER
+#include <stdint.h> // typedef uint32_t
+#endif
+
 
 using namespace std;
 
@@ -191,14 +195,14 @@ private:
      * the available memory
      */
     CUDA_DEV void insertElement(GrayPair* elements, GrayPair actualPair,
-            uint& lastInsertionPosition, bool symmetry);
+            uint32_t& lastInsertionPosition, bool symmetry);
     /**
      * Method that inserts an AggregatedGrayPair in the pre-allocated memory.
      * It uses the convention that AggregateGrayPair (k=0, frequency=0) indicates
      * available memory
      */
     CUDA_DEV void insertElement(AggregatedGrayPair* elements,
-            AggregatedGrayPair actualPair, uint& lastInsertionPosition);
+            AggregatedGrayPair actualPair, uint32_t& lastInsertionPosition);
     /**
      * This method creates the array of GrayPairs
      */

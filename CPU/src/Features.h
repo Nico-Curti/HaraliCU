@@ -69,10 +69,8 @@ public:
     /**
      * DEBUG METHOD. This method prints single feature label
      * @param features list of computed features
-     * @param featureName index of the feature in the enumeration
      */
-    static void printSingleFeature(const vector<double> &features,
-                                   FeatureNames featureName);
+    static void printSingleFeature(const vector<double> &features);
     /**
      * DEBUG METHOD. This method prints single feature label and its value
      * @param value: value of the feature to print

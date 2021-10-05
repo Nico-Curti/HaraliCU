@@ -16,7 +16,6 @@ void cudaCheckError(cudaError_t err){
 
  
 /**
-/**
  * Exits the program if the launch of the kernel of computation fails
  */
 void checkKernelLaunchError(){
@@ -200,10 +199,10 @@ dim3 getGridFromAvailableMemory(int numberOfPairs,
 
 	cout << endl << "WARNING! Maximum available gpu memory consumed" << endl;
 	// How many blocks can be launched
-	int numberOfBlocks = freeGpuMemory / singleBlockMemoryOccupation;
+	int numberOfBlocks = static_cast<int>(freeGpuMemory / singleBlockMemoryOccupation);
 	
 	// Creating a 2D grid of blocks
-	int gridSide = sqrt(numberOfBlocks);
+	int gridSide = static_cast<int>(sqrt(numberOfBlocks));
 	return dim3(gridSide, gridSide);
 }
 

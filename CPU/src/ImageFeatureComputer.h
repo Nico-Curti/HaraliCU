@@ -1,7 +1,7 @@
 #ifndef FEATUREEXTRACTOR_IMAGEFEATURECOMPUTER_H
 #define FEATUREEXTRACTOR_IMAGEFEATURECOMPUTER_H
 
-#include <opencv2/highgui/highgui.hpp>
+#include <opencv2/highgui.hpp>
 #include <opencv2/core.hpp>
 #include "ImageLoader.h"
 #include "ProgramArguments.h"
@@ -125,9 +125,8 @@ private:
 	/**
 	 * Displays a set of information about the computation of the provided image
 	 * @param imgData
-	 * @param padding
 	 */
-    void printInfo(ImageData imgData, int padding);
+    void printInfo(ImageData imgData);
 	/**
 	 * Displays the memory space used while computing the features
 	 * @param imgData

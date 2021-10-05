@@ -63,7 +63,7 @@ inline double computeAsmStep(const double actualPairProbability){
 }
 
 // AUTOCORRELATION
-inline double computeAutocorrelationStep(const uint i, const uint j, const double actualPairProbability){
+inline double computeAutocorrelationStep(const uint32_t i, const uint32_t j, const double actualPairProbability){
     return (i * j * actualPairProbability);
 }
 
@@ -73,30 +73,30 @@ inline double computeEntropyStep(const double actualPairProbability){
 }
 
 // HOMOGENEITY
-inline double computeHomogeneityStep(const uint i, const uint j, const double actualPairProbability){
-    int diff = i - j; // avoids casting value errors of uint(negative number)
+inline double computeHomogeneityStep(const uint32_t i, const uint32_t j, const double actualPairProbability){
+    int diff = i - j; // avoids casting value errors of uint32_t(negative number)
     diff = diff < 0 ? -diff : diff; // absolute value
     return (actualPairProbability / (1 + diff));
 }
 
 // CONTRAST
-inline double computeContrastStep(const uint i, const uint j, const double actualPairProbability){
-    int diff = i - j; // avoids casting value errors of uint(negative number)
+inline double computeContrastStep(const uint32_t i, const uint32_t j, const double actualPairProbability){
+    int diff = i - j; // avoids casting value errors of uint32_t(negative number)
     diff = diff < 0 ? -diff : diff; // absolute value
     return (actualPairProbability * (pow(diff, 2)));
 }
 
 // DISSIMILARITY
-inline double computeDissimilarityStep(const uint i, const uint j, const double pairProbability){
-    int diff = i - j; // avoids casting value errors of uint(negative number)
+inline double computeDissimilarityStep(const uint32_t i, const uint32_t j, const double pairProbability){
+    int diff = i - j; // avoids casting value errors of uint32_t(negative number)
     diff = diff < 0 ? -diff : diff; // absolute value
     return (pairProbability * diff);
 }
 
 // IDM
-inline double computeInverceDifferenceMomentStep(const uint i, const uint j,
-    const double pairProbability, const uint maxGrayLevel) {
-    double diff = i - j; // avoids casting value errors of uint(negative number)
+inline double computeInverceDifferenceMomentStep(const uint32_t i, const uint32_t j,
+    const double pairProbability, const uint32_t maxGrayLevel) {
+    double diff = i - j; // avoids casting value errors of uint32_t(negative number)
     diff = diff < 0 ? -diff : diff; // absolute value
     double temp = diff;
 
@@ -105,7 +105,7 @@ inline double computeInverceDifferenceMomentStep(const uint i, const uint j,
 
 /* FEATURES WITH MEANS */
 // CORRELATION
-inline double computeCorrelationStep(const uint i, const uint j, 
+inline double computeCorrelationStep(const uint32_t i, const uint32_t j,
     const double pairProbability, const double muX, const double muY, 
     const double sigmaX, const double sigmaY) {
     // beware ! unsigned int - double
@@ -113,19 +113,19 @@ inline double computeCorrelationStep(const uint i, const uint j,
 }
 
 // CLUSTER PROMINENCE
-inline double computeClusterProminenceStep(const uint i, const uint j, 
+inline double computeClusterProminenceStep(const uint32_t i, const uint32_t j,
     const double pairProbability, const double muX, const double muY){
     return (pow((i + j - muX - muY), 4) * pairProbability);
 }
 
 // CLUSTER SHADE
-inline double computeClusterShadeStep(const uint i, const uint j,
+inline double computeClusterShadeStep(const uint32_t i, const uint32_t j,
     const double pairProbability, const double muX, const double muY){
     return (pow((i + j - muX - muY), 3) * pairProbability);
 }
 
 // SUM OF SQUARES
-inline double computeSumOfSquaresStep(const uint i,
+inline double computeSumOfSquaresStep(const uint32_t i,
                                       const double pairProbability, const double mean){
     return (pow((i - mean), 2) * pairProbability);
 }
@@ -142,7 +142,7 @@ inline double computeSumEntropyStep(const double pairProbability){
 }
 
 // SUM VARIANCE
-inline double computeSumVarianceStep(const uint aggregatedGrayLevel, 
+inline double computeSumVarianceStep(const uint32_t aggregatedGrayLevel,
     const double pairProbability, const double sumEntropy){
     // beware ! unsigned int - double
     return (pow((aggregatedGrayLevel - sumEntropy),2) * pairProbability);
@@ -155,7 +155,7 @@ inline double computeDiffEntropyStep(const double pairProbability){
 }
 
 // DIFF
-inline double computeDiffVarianceStep(const uint aggregatedGrayLevel, const double pairProbability){
+inline double computeDiffVarianceStep(const uint32_t aggregatedGrayLevel, const double pairProbability){
     return (pow(aggregatedGrayLevel, 2) * pairProbability);
 }
 
@@ -386,6 +386,6 @@ void FeatureComputer::extractMarginalFeatures(const GLCM& glcm, double* features
         hxy1 += actualPairProbability * log(xMarginalProbability * yMarginalProbability);
     }
     hxy1 *= -1;
-    features[IMOC] = (hxy - hxy1)/(max(hx, hy));
+    features[IMOC] = (hxy - hxy1)/(std::max(hx, hy));
 
 }

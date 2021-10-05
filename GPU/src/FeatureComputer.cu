@@ -54,11 +54,11 @@ __device__ void FeatureComputer::computeDirectionalFeatures() {
 
 // ASM
 __device__ inline double computeAsmStep(const double actualPairProbability){
-    return pow((actualPairProbability),2);
+    return powf((actualPairProbability),2);
 }
 
 // AUTOCORRELATION
-__device__ inline double computeAutocorrelationStep(const uint i, const uint j, const double actualPairProbability){
+__device__ inline double computeAutocorrelationStep(const uint32_t i, const uint32_t j, const double actualPairProbability){
     return (i * j * actualPairProbability);
 }
 
@@ -68,36 +68,36 @@ __device__ inline double computeEntropyStep(const double actualPairProbability){
 }
 
 // HOMOGENEITY
-__device__ inline double computeHomogeneityStep(const uint i, const uint j, const double actualPairProbability){
-    int diff = i - j; // avoids casting value errors of uint(negative number)
+__device__ inline double computeHomogeneityStep(const uint32_t i, const uint32_t j, const double actualPairProbability){
+    int diff = i - j; // avoids casting value errors of uint32_t(negative number)
     diff = diff < 0 ? -diff : diff; // absolute value
     return (actualPairProbability / (1 + diff));
 }
 
 // CONTRAST
-__device__ inline double computeContrastStep(const uint i, const uint j, const double actualPairProbability){
-    int diff = i - j; // avoids casting value errors of uint(negative number)
+__device__ inline double computeContrastStep(const uint32_t i, const uint32_t j, const double actualPairProbability){
+    int diff = i - j; // avoids casting value errors of uint32_t(negative number)
     diff = diff < 0 ? -diff : diff; // absolute value
-    return (actualPairProbability * (pow(diff, 2)));
+    return (actualPairProbability * (powf(diff, 2)));
 }
 
 // DISSIMILARITY
-__device__ inline double computeDissimilarityStep(const uint i, const uint j, const double pairProbability){
-	int diff = i - j; // avoids casting value errors of uint(negative number)
+__device__ inline double computeDissimilarityStep(const uint32_t i, const uint32_t j, const double pairProbability){
+	int diff = i - j; // avoids casting value errors of uint32_t(negative number)
     diff = diff < 0 ? -diff : diff; // absolute value
     return (pairProbability * diff);
 }
 
 // IDM
-__device__ inline double computeInverceDifferenceMomentStep(const uint i, const uint j,
-    const double pairProbability, const uint maxGrayLevel) {
-	double diff = i - j; // avoids casting value errors of uint(negative number)
+__device__ inline double computeInverceDifferenceMomentStep(const uint32_t i, const uint32_t j,
+    const double pairProbability, const uint32_t maxGrayLevel) {
+	double diff = i - j; // avoids casting value errors of uint32_t(negative number)
     return (pairProbability / (1 + fabs(diff) / maxGrayLevel));
 }
 
 /* FEATURES WITH MEANS */
 // CORRELATION
-__device__ inline double computeCorrelationStep(const uint i, const uint j,
+__device__ inline double computeCorrelationStep(const uint32_t i, const uint32_t j,
     const double pairProbability, const double muX, const double muY,
     const double sigmaX, const double sigmaY){
     // beware ! unsigned int - double
@@ -105,21 +105,21 @@ __device__ inline double computeCorrelationStep(const uint i, const uint j,
 }
 
 // CLUSTER PROMINENCE
-__device__ inline double computeClusterProminenceStep(const uint i, const uint j,
+__device__ inline double computeClusterProminenceStep(const uint32_t i, const uint32_t j,
     const double pairProbability, const double muX, const double muY){
-    return (pow((i + j - muX - muY), 4) * pairProbability);
+    return (powf((i + j - muX - muY), 4) * pairProbability);
 }
 
 // CLUSTER SHADE
-__device__ inline double computeClusterShadeStep(const uint i, const uint j,
+__device__ inline double computeClusterShadeStep(const uint32_t i, const uint32_t j,
     const double pairProbability, const double muX, const double muY){
-    return (pow((i + j - muX - muY), 3) * pairProbability);
+    return (powf((i + j - muX - muY), 3) * pairProbability);
 }
 
 // SUM OF SQUARES
-__device__ inline double computeSumOfSquaresStep(const uint i,
+__device__ inline double computeSumOfSquaresStep(const uint32_t i,
                                       const double pairProbability, const double mean){
-    return (pow((i - mean), 2) * pairProbability);
+    return (powf((i - mean), 2) * pairProbability);
 }
 
 // SUM Aggregated features
@@ -134,10 +134,10 @@ __device__ inline double computeSumEntropyStep(const double pairProbability){
 }
 
 // SUM VARIANCE
-__device__ inline double computeSumVarianceStep(const uint aggregatedGrayLevel,
+__device__ inline double computeSumVarianceStep(const uint32_t aggregatedGrayLevel,
     const double pairProbability, const double sumEntropy){
     // beware ! unsigned int - double
-    return (pow((aggregatedGrayLevel - sumEntropy),2) * pairProbability);
+    return (powf((aggregatedGrayLevel - sumEntropy),2) * pairProbability);
 }
 
 // DIFF Aggregated features
@@ -147,7 +147,7 @@ __device__ inline double computeDiffEntropyStep(const double pairProbability){
 }
 
 // DIFF
-__device__ inline double computeDiffVarianceStep(const uint aggregatedGrayLevel, const double pairProbability){
+__device__ inline double computeDiffVarianceStep(const uint32_t aggregatedGrayLevel, const double pairProbability){
     return ((aggregatedGrayLevel * aggregatedGrayLevel) * pairProbability);
 }
 
@@ -226,8 +226,8 @@ __device__ void FeatureComputer::extractAutonomousFeatures(const GLCM& glcm, dou
         features[CLUSTERPROMINENCE] += computeClusterProminenceStep(i, j, actualPairProbability, muX, muY);
         features[CLUSTERSHADE] += computeClusterShadeStep(i, j, actualPairProbability, muX, muY);
         features[SUMOFSQUARES] += computeSumOfSquaresStep(i, actualPairProbability, mean);
-        sigmaX += pow((i - muX), 2) * actualPairProbability;
-        sigmaY += pow((j - muY), 2) * actualPairProbability;
+        sigmaX += powf((i - muX), 2) * actualPairProbability;
+        sigmaY += powf((j - muY), 2) * actualPairProbability;
     }
 
     sigmaX = sqrt(sigmaX);

@@ -25,9 +25,9 @@ public:
      * @param mxGrayLevel
      */
     explicit ImageData(unsigned int rows, unsigned int columns, int borders,
-            unsigned int mixGrayLevel, unsigned int maxGrayLevel)
-            : rows(rows), columns(columns), appliedBorders(borders),
-            minGrayLevel(minGrayLevel), maxGrayLevel(maxGrayLevel){};
+            unsigned int minGrayLevel, unsigned int maxGrayLevel)
+            : rows(rows), columns(columns),
+            maxGrayLevel(maxGrayLevel), minGrayLevel(minGrayLevel), appliedBorders(borders){};
      /**
       * Constructor that extracts the metadata from the "complete" Image class
       * @param whole image as well as the metadata
@@ -35,9 +35,9 @@ public:
     */
     explicit ImageData(const Image& img, int borders)
             : rows(img.getRows()), columns(img.getColumns()),
-            appliedBorders(borders), 
+            maxGrayLevel(img.getMaxGrayLevel()),
             minGrayLevel(img.getMinGrayLevel()),
-            maxGrayLevel(img.getMaxGrayLevel()){};
+            appliedBorders(borders){};
     // Getters
     /**
      * Getter

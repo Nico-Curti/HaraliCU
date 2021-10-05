@@ -1,0 +1,30 @@
+# Config file for the HaraliCU package
+
+get_filename_component(HaraliCU_CMAKE_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
+list(APPEND CMAKE_MODULE_PATH "${HaraliCU_CMAKE_DIR}")
+
+include(CMakeFindDependencyMacro)
+
+if(MSVC)
+  set(CMAKE_CXX_FLAGS "/wd4018 /wd4244 /wd4267 /wd4305 ${CMAKE_CXX_FLAGS}")
+endif()
+
+include(CheckLanguage)
+check_language(CUDA)
+if(NOT CMAKE_CUDA_COMPILER)
+  message(ERROR " --> WARNING: Unable to find native CUDA integration!")
+endif()
+find_dependency(CUDA)
+cuda_select_nvcc_arch_flags(CUDA_ARCH_FLAGS ${CUDA_ARCHITECTURES})
+
+find_package (OpenCV REQUIRED COMPONENTS core highgui imgproc)
+
+# Our library dependencies (contains definitions for IMPORTED targets)
+include("${HaraliCU_CMAKE_DIR}/HaraliCUTargets.cmake")
+include("${HaraliCU_CMAKE_DIR}/HaraliCUConfigVersion.cmake")
+
+get_target_property(FULL_HaraliCU_INCLUDE_DIRS HaraliCU::GPU::HaraliCU INTERFACE_INCLUDE_DIRECTORIES)
+list(GET FULL_HaraliCU_INCLUDE_DIRS 0 HaraliCU_INCLUDE_DIR)
+get_filename_component(HaraliCU_INCLUDE_DIR "${HaraliCU_INCLUDE_DIR}" REALPATH)
+
+find_package_handle_standard_args(HaraliCU REQUIRED_VARS HaraliCU_INCLUDE_DIR VERSION_VAR PACKAGE_VERSION)

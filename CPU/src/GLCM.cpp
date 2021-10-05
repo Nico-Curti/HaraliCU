@@ -9,10 +9,14 @@ using namespace std;
 
 // Constructors
 GLCM::GLCM(const unsigned int * pixels, const ImageData& image,
-        Window& windowData, WorkArea& wa): pixels(pixels), image(image),
-        windowData(windowData),  workArea(wa) ,grayPairs(wa.grayPairs),
-        summedPairs(wa.summedPairs), subtractedPairs(wa.subtractedPairs),
-        xMarginalPairs(wa.xMarginalPairs), yMarginalPairs(wa.yMarginalPairs)
+        Window& windowData, WorkArea& wa): grayPairs(wa.grayPairs), effectiveNumberOfGrayPairs(0),
+        summedPairs(wa.summedPairs), numberOfSummedPairs(0),
+        subtractedPairs(wa.subtractedPairs), numberOfSubtractedPairs(0),
+        xMarginalPairs(wa.xMarginalPairs), numberOfxMarginalPairs(0),
+        yMarginalPairs(wa.yMarginalPairs), numberOfyMarginalPairs(0),
+        pixels(pixels), image(image),
+        windowData(windowData), workArea(wa),
+        numberOfPairs(0)
         {
     // Computing the number of pairs that need to be processed in this GLCM
     this->numberOfPairs = getWindowRowsBorder() * getWindowColsBorder();
@@ -125,7 +129,7 @@ inline int GLCM::getNeighborIndex(const int i, const int j,
  * available memory
  */
 inline void GLCM::insertElement(GrayPair* elements, const GrayPair actualPair,
-        uint& lastInsertionPosition, bool symmetry){
+        uint32_t& lastInsertionPosition, bool symmetry){
     int position = 0;
     // Finding if the element was already inserted, and where
     while((!elements[position].compareTo(actualPair, symmetry)) && (position < numberOfPairs))
@@ -198,7 +202,7 @@ void GLCM::initializeGlcmElements() {
  * It uses the convention that AggregateGrayPair (k=0, frequency=0) means
  * available memory
  */
-inline void GLCM::insertElement(AggregatedGrayPair* elements, const AggregatedGrayPair actualPair, uint& lastInsertionPosition){
+inline void GLCM::insertElement(AggregatedGrayPair* elements, const AggregatedGrayPair actualPair, uint32_t& lastInsertionPosition){
     int position = 0;
     // Finding if the element was already inserted, and where
     while((!elements[position].compareTo(actualPair)) && (position < numberOfPairs))
@@ -240,7 +244,7 @@ void GLCM::codifyAggregatedPairs() {
     lastInsertPosition = 0;
     for(int i = 0 ; i < effectiveNumberOfGrayPairs; i++){
         int diff = grayPairs[i].getGrayLevelI() - grayPairs[i].getGrayLevelJ();
-        grayLevelType k= static_cast<uint>(abs(diff));
+        grayLevelType k= static_cast<uint32_t>(abs(diff));
         AggregatedGrayPair element(k, grayPairs[i].getFrequency());
 
         insertElement(subtractedPairs, element, lastInsertPosition);

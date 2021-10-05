@@ -37,9 +37,9 @@ public:
             AggregatedGrayPair* xMarginalPairs,
             AggregatedGrayPair* yMarginalPairs,
             double* out):
-            numberOfElements(length), grayPairs(grayPairs), summedPairs(summedPairs),
+            grayPairs(grayPairs), summedPairs(summedPairs),
             subtractedPairs(subtractedPairs), xMarginalPairs(xMarginalPairs),
-            yMarginalPairs(yMarginalPairs), output(out){};
+            yMarginalPairs(yMarginalPairs), output(out), numberOfElements(length){};
     /**
      * Gets the arrays to initial state so another window can be processed
      */

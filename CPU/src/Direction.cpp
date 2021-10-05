@@ -46,15 +46,20 @@ void Direction::printDirectionLabel(const int direction){
     switch(direction){
         case 1:
             printf(" * Direction 0° *\n");
+            break;
         case 2:
             printf(" * Direction 45° *\n");
+            break;
         case 3:
             printf(" * Direction 90° *\n");
+            break;
         case 4:
             printf(" * Direction 135° *\n");
+            break;
         default:
             fprintf(stderr, "Fatal Error! Unsupported direction");
             exit(-1);
+            break;
     }
 }
 

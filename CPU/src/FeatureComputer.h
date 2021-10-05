@@ -2,6 +2,7 @@
 #define FEATUREEXTRACTOR_FEATURECOMPUTER_H
 
 #include <vector>
+#include <algorithm>
 #include "GLCM.h"
 #include "Features.h"
 

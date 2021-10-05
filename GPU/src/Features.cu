@@ -135,7 +135,7 @@ __host__ string Features::printFeatureNameAndValue(const double value, FeatureNa
 __host__ void Features::printSingleFeature(const vector<double>& features,
                                          FeatureNames featureName){
 
-    for (int i = 0; i < features.size(); ++i) {
+    for (size_t i = 0; i < features.size(); ++i) {
         // Printing the label
         printFeatureName((FeatureNames) i);
         // Printing the value
